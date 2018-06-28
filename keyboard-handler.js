@@ -24,10 +24,12 @@ var KeyboardHandler = /** @class */ (function () {
         return this._activeKeys[keyCode];
     };
     KeyboardHandler.prototype.keyDown = function (event) {
-        this._activeKeys[event.which] = true;
+        if (!this._activeKeys[event.which]) {
+            this._activeKeys[event.which] = Date.now();
+        }
     };
     KeyboardHandler.prototype.keyUp = function (event) {
-        this._activeKeys[event.which] = false;
+        delete this._activeKeys[event.which];
     };
     return KeyboardHandler;
 }());

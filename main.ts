@@ -4,7 +4,9 @@ import KeyboardHandler, { KEYS } from './keyboard-handler';
 /**
  * GameObjects
  */
-import Player from './player';
+import Player from './flaffy';
+import PipeHandler from './pipehandler';
+import GameObject from './game-object';
 
 
 const canvas: HTMLCanvasElement = document.getElementById('game') as HTMLCanvasElement;
@@ -22,18 +24,25 @@ let startTime: number;
 let now : number;
 let then : number;
 
+window.addEventListener('keydown', handler.keyDown.bind(handler), false);
+window.addEventListener('keyup', handler.keyUp.bind(handler), false);
+
 const draw = (context: CanvasRenderingContext2D) => {
     context.fillStyle = '#ececec';
     context.fillRect(0, 0, 640, 480);
-    player.draw(context)
+    gameObjects.forEach(g => g.draw({ context: context }))
 }
 
 const update = (elapsed: number) => {
-    player.update(elapsed, handler);
+    gameObjects.forEach(g => {
+        g.update({
+            deltatime: elapsed,
+            framecount: frameCount,
+            keyboard: handler
+        })
+        g.collision(gameObjects)
+    });
 }
-
-window.addEventListener('keydown', handler.keyDown.bind(handler));
-window.addEventListener('keyup', handler.keyUp.bind(handler));
 
 const animationUpdate = () => {
     
@@ -58,11 +67,12 @@ const start = () => {
     animationUpdate();
 }
 
-const player = new Player({
+const gameObjects: GameObject[] = [];
+gameObjects.push(new Player({
     options: {
         position: {
-            x: 0,
-            y: 220
+            x: (CANVAS_WIDTH / 2) - 60,
+            y: CANVAS_HEIGHT / 2
         },
         size: {
             width: 20,
@@ -70,6 +80,7 @@ const player = new Player({
         }
     },
     color: '#333'
-})
+}))
+gameObjects.push(new PipeHandler(75, -0.2));
 
 start();

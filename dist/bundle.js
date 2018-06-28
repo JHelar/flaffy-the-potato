@@ -36,32 +36,17 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -94,7 +79,19 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar CANVAS_WIDTH = 640;\nexports.CANVAS_WIDTH = CANVAS_WIDTH;\nvar CANVAS_HEIGHT = 480;\nexports.CANVAS_HEIGHT = CANVAS_HEIGHT;\nvar FPS = 60;\nexports.FPS = FPS;\n//# sourceMappingURL=constants.js.map\n\n//# sourceURL=webpack:///./constants.js?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar CANVAS_WIDTH = 640;\r\nexports.CANVAS_WIDTH = CANVAS_WIDTH;\r\nvar CANVAS_HEIGHT = 480;\r\nexports.CANVAS_HEIGHT = CANVAS_HEIGHT;\r\nvar FPS = 60;\r\nexports.FPS = FPS;\r\n//# sourceMappingURL=constants.js.map\n\n//# sourceURL=webpack:///./constants.js?");
+
+/***/ }),
+
+/***/ "./flaffy.js":
+/*!*******************!*\
+  !*** ./flaffy.js ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __extends = (this && this.__extends) || (function () {\r\n    var extendStatics = Object.setPrototypeOf ||\r\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\r\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\r\n    return function (d, b) {\r\n        extendStatics(d, b);\r\n        function __() { this.constructor = d; }\r\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\r\n    };\r\n})();\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar game_object_1 = __webpack_require__(/*! ./game-object */ \"./game-object.js\");\r\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\r\nvar keyboard_handler_1 = __webpack_require__(/*! ./keyboard-handler */ \"./keyboard-handler.js\");\r\nvar Player = /** @class */ (function (_super) {\r\n    __extends(Player, _super);\r\n    function Player(args) {\r\n        var _this = _super.call(this, args.options) || this;\r\n        _this._velocity = 0;\r\n        _this._lift = -0.1;\r\n        _this._gravity = 0.05;\r\n        _this._color = args.color;\r\n        return _this;\r\n    }\r\n    Object.defineProperty(Player.prototype, \"color\", {\r\n        get: function () {\r\n            return this._color;\r\n        },\r\n        set: function (v) {\r\n            this._color = v;\r\n        },\r\n        enumerable: true,\r\n        configurable: true\r\n    });\r\n    Player.prototype.draw = function (_a) {\r\n        var context = _a.context;\r\n        var _b = this.size, width = _b.width, height = _b.height;\r\n        var _c = this.position, x = _c.x, y = _c.y;\r\n        context.fillStyle = this._color;\r\n        context.fillRect(x, y, width, height);\r\n    };\r\n    Player.prototype.update = function (_a) {\r\n        var deltatime = _a.deltatime, keyboard = _a.keyboard;\r\n        var keyPressed = keyboard.isKeyActive(keyboard_handler_1.KEYS.W);\r\n        if (keyPressed) {\r\n            this._velocity += this._lift;\r\n        }\r\n        this._velocity += this._gravity;\r\n        this.position.y += this._velocity * deltatime;\r\n        if (this.position.y > constants_1.CANVAS_HEIGHT - this.size.height) {\r\n            this.position.y = constants_1.CANVAS_HEIGHT - this.size.height;\r\n            this._velocity = 0;\r\n        }\r\n        else if (this.position.y < 0) {\r\n            this.position.y = 0;\r\n            this._velocity = 0;\r\n        }\r\n    };\r\n    return Player;\r\n}(game_object_1.default));\r\nexports.default = Player;\r\n//# sourceMappingURL=flaffy.js.map\n\n//# sourceURL=webpack:///./flaffy.js?");
 
 /***/ }),
 
@@ -106,7 +103,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar CA
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar GameObject = /** @class */ (function () {\n    function GameObject(options) {\n        this._options = options;\n    }\n    Object.defineProperty(GameObject.prototype, \"options\", {\n        get: function () {\n            return this._options;\n        },\n        set: function (v) {\n            this._options = v;\n        },\n        enumerable: true,\n        configurable: true\n    });\n    GameObject.prototype.draw = function (context) {\n        throw new Error(\"Method not implemented.\");\n    };\n    GameObject.prototype.update = function (deltatime, handler) {\n        throw new Error(\"Method not implemented.\");\n    };\n    return GameObject;\n}());\nexports.default = GameObject;\n//# sourceMappingURL=game-object.js.map\n\n//# sourceURL=webpack:///./game-object.js?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar GameObject = /** @class */ (function () {\r\n    function GameObject(options) {\r\n        if (options) {\r\n            var position = options.position, size = options.size;\r\n            this._position = position;\r\n            this._size = size;\r\n        }\r\n    }\r\n    Object.defineProperty(GameObject.prototype, \"size\", {\r\n        get: function () {\r\n            return this._size;\r\n        },\r\n        set: function (v) {\r\n            this._size = v;\r\n        },\r\n        enumerable: true,\r\n        configurable: true\r\n    });\r\n    Object.defineProperty(GameObject.prototype, \"position\", {\r\n        get: function () {\r\n            return this._position;\r\n        },\r\n        set: function (v) {\r\n            this._position = v;\r\n        },\r\n        enumerable: true,\r\n        configurable: true\r\n    });\r\n    GameObject.prototype.draw = function (drawArgs) {\r\n        throw new Error(\"Method not implemented.\");\r\n    };\r\n    GameObject.prototype.update = function (updateArgs) {\r\n        throw new Error(\"Method not implemented.\");\r\n    };\r\n    GameObject.prototype.collision = function (gameObjects) {\r\n        return null;\r\n    };\r\n    return GameObject;\r\n}());\r\nexports.default = GameObject;\r\n//# sourceMappingURL=game-object.js.map\n\n//# sourceURL=webpack:///./game-object.js?");
 
 /***/ }),
 
@@ -118,7 +115,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar Ga
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.KEYS = {\n    W: 87,\n    A: 65,\n    S: 83,\n    D: 68\n};\nvar KeyboardHandler = /** @class */ (function () {\n    function KeyboardHandler() {\n        this._activeKeys = {};\n    }\n    Object.defineProperty(KeyboardHandler.prototype, \"activeKeys\", {\n        get: function () {\n            return this._activeKeys;\n        },\n        set: function (v) {\n            this._activeKeys = v;\n        },\n        enumerable: true,\n        configurable: true\n    });\n    KeyboardHandler.prototype.isKeyActive = function (keyCode) {\n        return this._activeKeys[keyCode];\n    };\n    KeyboardHandler.prototype.keyDown = function (event) {\n        this._activeKeys[event.which] = true;\n    };\n    KeyboardHandler.prototype.keyUp = function (event) {\n        this._activeKeys[event.which] = false;\n    };\n    return KeyboardHandler;\n}());\nexports.default = KeyboardHandler;\n//# sourceMappingURL=keyboard-handler.js.map\n\n//# sourceURL=webpack:///./keyboard-handler.js?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.KEYS = {\r\n    W: 87,\r\n    A: 65,\r\n    S: 83,\r\n    D: 68\r\n};\r\nvar KeyboardHandler = /** @class */ (function () {\r\n    function KeyboardHandler() {\r\n        this._activeKeys = {};\r\n    }\r\n    Object.defineProperty(KeyboardHandler.prototype, \"activeKeys\", {\r\n        get: function () {\r\n            return this._activeKeys;\r\n        },\r\n        set: function (v) {\r\n            this._activeKeys = v;\r\n        },\r\n        enumerable: true,\r\n        configurable: true\r\n    });\r\n    KeyboardHandler.prototype.isKeyActive = function (keyCode) {\r\n        return this._activeKeys[keyCode];\r\n    };\r\n    KeyboardHandler.prototype.keyDown = function (event) {\r\n        if (!this._activeKeys[event.which]) {\r\n            this._activeKeys[event.which] = Date.now();\r\n        }\r\n    };\r\n    KeyboardHandler.prototype.keyUp = function (event) {\r\n        delete this._activeKeys[event.which];\r\n    };\r\n    return KeyboardHandler;\r\n}());\r\nexports.default = KeyboardHandler;\r\n//# sourceMappingURL=keyboard-handler.js.map\n\n//# sourceURL=webpack:///./keyboard-handler.js?");
 
 /***/ }),
 
@@ -130,19 +127,31 @@ eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexport
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\nvar keyboard_handler_1 = __webpack_require__(/*! ./keyboard-handler */ \"./keyboard-handler.js\");\n/**\n * GameObjects\n */\nvar player_1 = __webpack_require__(/*! ./player */ \"./player.js\");\nvar canvas = document.getElementById('game');\ncanvas.width = constants_1.CANVAS_WIDTH;\ncanvas.height = constants_1.CANVAS_HEIGHT;\nvar handler = new keyboard_handler_1.default();\nvar context = canvas.getContext('2d');\nvar frameCount = 0;\nvar fpsInterval;\nvar elapsed;\nvar startTime;\nvar now;\nvar then;\nvar draw = function (context) {\n    context.fillStyle = '#ececec';\n    context.fillRect(0, 0, 640, 480);\n    player.draw(context);\n};\nvar update = function (elapsed) {\n    player.update(elapsed, handler);\n};\nwindow.addEventListener('keydown', handler.keyDown.bind(handler));\nwindow.addEventListener('keyup', handler.keyUp.bind(handler));\nvar animationUpdate = function () {\n    window.requestAnimationFrame(animationUpdate);\n    now = Date.now();\n    elapsed = now - then;\n    if (elapsed > fpsInterval) {\n        then = now - (elapsed % fpsInterval);\n        frameCount++;\n        update(elapsed);\n        draw(context);\n    }\n};\nvar start = function () {\n    fpsInterval = 1000 / constants_1.FPS;\n    then = Date.now();\n    startTime = then;\n    animationUpdate();\n};\nvar player = new player_1.default({\n    options: {\n        position: {\n            x: 0,\n            y: 220\n        },\n        size: {\n            width: 20,\n            height: 20\n        }\n    },\n    color: '#333'\n});\nstart();\n//# sourceMappingURL=main.js.map\n\n//# sourceURL=webpack:///./main.js?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\r\nvar keyboard_handler_1 = __webpack_require__(/*! ./keyboard-handler */ \"./keyboard-handler.js\");\r\n/**\r\n * GameObjects\r\n */\r\nvar flaffy_1 = __webpack_require__(/*! ./flaffy */ \"./flaffy.js\");\r\nvar pipehandler_1 = __webpack_require__(/*! ./pipehandler */ \"./pipehandler.js\");\r\nvar canvas = document.getElementById('game');\r\ncanvas.width = constants_1.CANVAS_WIDTH;\r\ncanvas.height = constants_1.CANVAS_HEIGHT;\r\nvar handler = new keyboard_handler_1.default();\r\nvar context = canvas.getContext('2d');\r\nvar frameCount = 0;\r\nvar fpsInterval;\r\nvar elapsed;\r\nvar startTime;\r\nvar now;\r\nvar then;\r\nwindow.addEventListener('keydown', handler.keyDown.bind(handler), false);\r\nwindow.addEventListener('keyup', handler.keyUp.bind(handler), false);\r\nvar draw = function (context) {\r\n    context.fillStyle = '#ececec';\r\n    context.fillRect(0, 0, 640, 480);\r\n    gameObjects.forEach(function (g) { return g.draw({ context: context }); });\r\n};\r\nvar update = function (elapsed) {\r\n    gameObjects.forEach(function (g) {\r\n        g.update({\r\n            deltatime: elapsed,\r\n            framecount: frameCount,\r\n            keyboard: handler\r\n        });\r\n        g.collision(gameObjects);\r\n    });\r\n};\r\nvar animationUpdate = function () {\r\n    window.requestAnimationFrame(animationUpdate);\r\n    now = Date.now();\r\n    elapsed = now - then;\r\n    if (elapsed > fpsInterval) {\r\n        then = now - (elapsed % fpsInterval);\r\n        frameCount++;\r\n        update(elapsed);\r\n        draw(context);\r\n    }\r\n};\r\nvar start = function () {\r\n    fpsInterval = 1000 / constants_1.FPS;\r\n    then = Date.now();\r\n    startTime = then;\r\n    animationUpdate();\r\n};\r\nvar gameObjects = [];\r\ngameObjects.push(new flaffy_1.default({\r\n    options: {\r\n        position: {\r\n            x: (constants_1.CANVAS_WIDTH / 2) - 60,\r\n            y: constants_1.CANVAS_HEIGHT / 2\r\n        },\r\n        size: {\r\n            width: 20,\r\n            height: 20\r\n        }\r\n    },\r\n    color: '#333'\r\n}));\r\ngameObjects.push(new pipehandler_1.default(75, -0.2));\r\nstart();\r\n//# sourceMappingURL=main.js.map\n\n//# sourceURL=webpack:///./main.js?");
 
 /***/ }),
 
-/***/ "./player.js":
-/*!*******************!*\
-  !*** ./player.js ***!
-  \*******************/
+/***/ "./pipe.js":
+/*!*****************!*\
+  !*** ./pipe.js ***!
+  \*****************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar game_object_1 = __webpack_require__(/*! ./game-object */ \"./game-object.js\");\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\nvar Player = /** @class */ (function (_super) {\n    __extends(Player, _super);\n    function Player(args) {\n        var _this = _super.call(this, args.options) || this;\n        _this._dX = 1;\n        _this._dY = -1;\n        _this._speed = 0.16;\n        _this._color = args.color;\n        return _this;\n    }\n    Object.defineProperty(Player.prototype, \"color\", {\n        get: function () {\n            return this._color;\n        },\n        set: function (v) {\n            this._color = v;\n        },\n        enumerable: true,\n        configurable: true\n    });\n    Player.prototype.draw = function (context) {\n        var _a = this.options.size, width = _a.width, height = _a.height;\n        var _b = this.options.position, x = _b.x, y = _b.y;\n        context.fillStyle = this._color;\n        context.fillRect(x, y, width, height);\n    };\n    Player.prototype.update = function (deltatime, handler) {\n        this.options.position.x += (this._dX * this._speed) * deltatime;\n        this.options.position.y += (this._dY * this._speed) * deltatime;\n        if ((this.options.position.x + this.options.size.width) > constants_1.CANVAS_WIDTH) {\n            this._dX = -1;\n        }\n        else if (this.options.position.x < 0) {\n            this._dX = 1;\n        }\n    };\n    return Player;\n}(game_object_1.default));\nexports.default = Player;\n//# sourceMappingURL=player.js.map\n\n//# sourceURL=webpack:///./player.js?");
+eval("\r\nvar __extends = (this && this.__extends) || (function () {\r\n    var extendStatics = Object.setPrototypeOf ||\r\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\r\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\r\n    return function (d, b) {\r\n        extendStatics(d, b);\r\n        function __() { this.constructor = d; }\r\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\r\n    };\r\n})();\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar game_object_1 = __webpack_require__(/*! ./game-object */ \"./game-object.js\");\r\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\r\nvar Pipe = /** @class */ (function (_super) {\r\n    __extends(Pipe, _super);\r\n    function Pipe(gameObject, options) {\r\n        var _this = _super.call(this, gameObject) || this;\r\n        _this._spacing = 150;\r\n        _this._options = options || {\r\n            color: '#00FF00',\r\n            speed: -0.5\r\n        };\r\n        return _this;\r\n    }\r\n    Object.defineProperty(Pipe.prototype, \"options\", {\r\n        get: function () {\r\n            return this._options;\r\n        },\r\n        set: function (v) {\r\n            this._options = v;\r\n            this._bottom = constants_1.CANVAS_HEIGHT - (this.size.height + this._spacing);\r\n        },\r\n        enumerable: true,\r\n        configurable: true\r\n    });\r\n    Pipe.prototype.update = function (_a) {\r\n        var deltatime = _a.deltatime;\r\n        this.position.x += this._options.speed * deltatime;\r\n    };\r\n    Pipe.prototype.draw = function (_a) {\r\n        var context = _a.context;\r\n        context.fillStyle = this._options.color;\r\n        var _b = this.position, x = _b.x, y = _b.y;\r\n        var _c = this.size, width = _c.width, height = _c.height;\r\n        context.fillRect(x, 0, width, height);\r\n        context.fillRect(x, this.size.height + this._spacing, width, constants_1.CANVAS_HEIGHT - height);\r\n    };\r\n    return Pipe;\r\n}(game_object_1.default));\r\nexports.default = Pipe;\r\n//# sourceMappingURL=pipe.js.map\n\n//# sourceURL=webpack:///./pipe.js?");
+
+/***/ }),
+
+/***/ "./pipehandler.js":
+/*!************************!*\
+  !*** ./pipehandler.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __extends = (this && this.__extends) || (function () {\r\n    var extendStatics = Object.setPrototypeOf ||\r\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\r\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\r\n    return function (d, b) {\r\n        extendStatics(d, b);\r\n        function __() { this.constructor = d; }\r\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\r\n    };\r\n})();\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar game_object_1 = __webpack_require__(/*! ./game-object */ \"./game-object.js\");\r\nvar pipe_1 = __webpack_require__(/*! ./pipe */ \"./pipe.js\");\r\nvar constants_1 = __webpack_require__(/*! ./constants */ \"./constants.js\");\r\nvar PipeHandler = /** @class */ (function (_super) {\r\n    __extends(PipeHandler, _super);\r\n    function PipeHandler(spawnrate, pipespeed) {\r\n        var _this = _super.call(this, null) || this;\r\n        _this._pipes = [];\r\n        _this._spawnrate = spawnrate;\r\n        _this._pipespeed = pipespeed;\r\n        return _this;\r\n    }\r\n    PipeHandler.prototype._killPipe = function (pipe, index, pipes) {\r\n        if (pipe.position.x + pipe.size.width < 0) {\r\n            pipes.splice(index, 1);\r\n            return;\r\n        }\r\n    };\r\n    PipeHandler.prototype._spawnPipe = function () {\r\n        var random = function (min, max) {\r\n            var rand = Math.random() * max;\r\n            if (rand < min)\r\n                return min;\r\n            return rand;\r\n        };\r\n        var height = random(constants_1.CANVAS_HEIGHT / 6, (3 / 4) * constants_1.CANVAS_HEIGHT);\r\n        var pipeSize = {\r\n            height: height,\r\n            width: 40\r\n        };\r\n        var pipe = new pipe_1.default({\r\n            position: {\r\n                x: constants_1.CANVAS_WIDTH,\r\n                y: 0\r\n            },\r\n            size: pipeSize\r\n        }, {\r\n            speed: this._pipespeed,\r\n            color: '#789933'\r\n        });\r\n        this._pipes.push(pipe);\r\n    };\r\n    PipeHandler.prototype.draw = function (drawArgs) {\r\n        this._pipes.forEach(function (p) { return p.draw(drawArgs); });\r\n    };\r\n    PipeHandler.prototype.update = function (updateArgs) {\r\n        var _this = this;\r\n        this._pipes.forEach(function (p, index, pipes) {\r\n            p.update(updateArgs);\r\n            _this._killPipe(p, index, pipes);\r\n        });\r\n        if (updateArgs.framecount % this._spawnrate === 0) {\r\n            this._spawnPipe();\r\n        }\r\n    };\r\n    return PipeHandler;\r\n}(game_object_1.default));\r\nexports.default = PipeHandler;\r\n//# sourceMappingURL=pipehandler.js.map\n\n//# sourceURL=webpack:///./pipehandler.js?");
 
 /***/ })
 

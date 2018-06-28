@@ -5,7 +5,8 @@ var keyboard_handler_1 = require("./keyboard-handler");
 /**
  * GameObjects
  */
-var player_1 = require("./player");
+var flaffy_1 = require("./flaffy");
+var pipehandler_1 = require("./pipehandler");
 var canvas = document.getElementById('game');
 canvas.width = constants_1.CANVAS_WIDTH;
 canvas.height = constants_1.CANVAS_HEIGHT;
@@ -17,16 +18,23 @@ var elapsed;
 var startTime;
 var now;
 var then;
+window.addEventListener('keydown', handler.keyDown.bind(handler), false);
+window.addEventListener('keyup', handler.keyUp.bind(handler), false);
 var draw = function (context) {
     context.fillStyle = '#ececec';
     context.fillRect(0, 0, 640, 480);
-    player.draw(context);
+    gameObjects.forEach(function (g) { return g.draw({ context: context }); });
 };
 var update = function (elapsed) {
-    player.update(elapsed, handler);
+    gameObjects.forEach(function (g) {
+        g.update({
+            deltatime: elapsed,
+            framecount: frameCount,
+            keyboard: handler
+        });
+        g.collision(gameObjects);
+    });
 };
-window.addEventListener('keydown', handler.keyDown.bind(handler));
-window.addEventListener('keyup', handler.keyUp.bind(handler));
 var animationUpdate = function () {
     window.requestAnimationFrame(animationUpdate);
     now = Date.now();
@@ -44,11 +52,12 @@ var start = function () {
     startTime = then;
     animationUpdate();
 };
-var player = new player_1.default({
+var gameObjects = [];
+gameObjects.push(new flaffy_1.default({
     options: {
         position: {
-            x: 0,
-            y: 220
+            x: (constants_1.CANVAS_WIDTH / 2) - 60,
+            y: constants_1.CANVAS_HEIGHT / 2
         },
         size: {
             width: 20,
@@ -56,6 +65,7 @@ var player = new player_1.default({
         }
     },
     color: '#333'
-});
+}));
+gameObjects.push(new pipehandler_1.default(75, -0.2));
 start();
 //# sourceMappingURL=main.js.map

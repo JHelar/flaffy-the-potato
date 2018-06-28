@@ -1,16 +1,17 @@
-import { Point, Size } from './interfaces';
-import KeyboardHandler from './keyboard-handler';
+import { Point, Size, UpdateArgs, DrawArgs } from './interfaces';
 
 export interface GameObjectInterface {
     /**
      * draw
      */
-    draw(context: CanvasRenderingContext2D);
+    draw(drawArgs: DrawArgs);
 
     /**
      * update
      */
-    update(deltatime: number, handler: KeyboardHandler);
+    update(updateArgs: UpdateArgs);
+
+    collision(gameObjects: GameObject[]): (GameObject | null);
 }
 
 export interface GameObjectOptions {
@@ -20,23 +21,43 @@ export interface GameObjectOptions {
 
 export default abstract class GameObject implements GameObjectInterface {
     
-    private _options : GameObjectOptions;
-    public get options() : GameObjectOptions {
-        return this._options;
+    
+    private _size : Size;
+    public get size() : Size {
+        return this._size;
     }
-    public set options(v : GameObjectOptions) {
-        this._options = v;
+    public set size(v : Size) {
+        this._size = v;
     }
     
+    
+    private _position : Point;
+    public get position() : Point {
+        return this._position;
+    }
+    public set position(v : Point) {
+        this._position = v;
+    }
+    
+    
 
-    constructor(options: GameObjectOptions){
-        this._options = options;
+    constructor(options?: GameObjectOptions){
+        if(options){
+            const { position, size } = options;
+            this._position = position;
+            this._size = size;
+        }
     }
 
-    draw(context: CanvasRenderingContext2D) {
+    draw(drawArgs: DrawArgs) {
         throw new Error("Method not implemented.");
     }
-    update(deltatime: number, handler: KeyboardHandler) {
+
+    update(updateArgs: UpdateArgs) {
         throw new Error("Method not implemented.");
+    }
+
+    collision(gameObjects: GameObject[]){
+        return null;
     }
 }

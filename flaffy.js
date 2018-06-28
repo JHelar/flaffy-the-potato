@@ -12,13 +12,14 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var game_object_1 = require("./game-object");
 var constants_1 = require("./constants");
+var keyboard_handler_1 = require("./keyboard-handler");
 var Player = /** @class */ (function (_super) {
     __extends(Player, _super);
     function Player(args) {
         var _this = _super.call(this, args.options) || this;
-        _this._dX = 1;
-        _this._dY = -1;
-        _this._speed = 0.16;
+        _this._velocity = 0;
+        _this._lift = -0.1;
+        _this._gravity = 0.05;
         _this._color = args.color;
         return _this;
     }
@@ -32,23 +33,31 @@ var Player = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Player.prototype.draw = function (context) {
-        var _a = this.options.size, width = _a.width, height = _a.height;
-        var _b = this.options.position, x = _b.x, y = _b.y;
+    Player.prototype.draw = function (_a) {
+        var context = _a.context;
+        var _b = this.size, width = _b.width, height = _b.height;
+        var _c = this.position, x = _c.x, y = _c.y;
         context.fillStyle = this._color;
         context.fillRect(x, y, width, height);
     };
-    Player.prototype.update = function (deltatime, handler) {
-        this.options.position.x += (this._dX * this._speed) * deltatime;
-        this.options.position.y += (this._dY * this._speed) * deltatime;
-        if ((this.options.position.x + this.options.size.width) > constants_1.CANVAS_WIDTH) {
-            this._dX = -1;
+    Player.prototype.update = function (_a) {
+        var deltatime = _a.deltatime, keyboard = _a.keyboard;
+        var keyPressed = keyboard.isKeyActive(keyboard_handler_1.KEYS.W);
+        if (keyPressed) {
+            this._velocity += this._lift;
         }
-        else if (this.options.position.x < 0) {
-            this._dX = 1;
+        this._velocity += this._gravity;
+        this.position.y += this._velocity * deltatime;
+        if (this.position.y > constants_1.CANVAS_HEIGHT - this.size.height) {
+            this.position.y = constants_1.CANVAS_HEIGHT - this.size.height;
+            this._velocity = 0;
+        }
+        else if (this.position.y < 0) {
+            this.position.y = 0;
+            this._velocity = 0;
         }
     };
     return Player;
 }(game_object_1.default));
 exports.default = Player;
-//# sourceMappingURL=player.js.map
+//# sourceMappingURL=flaffy.js.map

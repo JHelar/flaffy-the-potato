@@ -20,15 +20,17 @@ export default class KeyboardHandler {
         this._activeKeys = {};
     }
 
-    isKeyActive(keyCode: number) : boolean {
+    isKeyActive(keyCode: number) : number {
         return this._activeKeys[keyCode];
     }
 
     keyDown(event: KeyboardEvent){
-        this._activeKeys[event.which] = true;
+        if(!this._activeKeys[event.which]) {
+            this._activeKeys[event.which] = Date.now();
+        }
     }
 
     keyUp(event: KeyboardEvent) {
-        this._activeKeys[event.which] = false;
+        delete this._activeKeys[event.which];
     }
 }

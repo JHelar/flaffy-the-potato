@@ -1,7 +1,9 @@
-import GameObject, { GameObjectOptions } from './game-object';
-import { UpdateArgs, DrawArgs } from './interfaces'
-import { CANVAS_HEIGHT } from './constants';
-import { KEYS } from './keyboard-handler';
+import { GameObjectOptions } from './game-object';
+import { DrawArgs, UpdateArgs } from '../interfaces'
+import { CANVAS_HEIGHT } from '../constants';
+import { KEYS } from '../keyboard-handler';
+import Game, { GAME_STATES } from '../game';
+import BoxCollider from '../colliders/box-collider';
 
 interface PlayerArguments {
     options: GameObjectOptions,
@@ -9,7 +11,7 @@ interface PlayerArguments {
 
 }
 
-export default class Player extends GameObject {
+export default class Player extends BoxCollider {
     
     private _velocity : number = 0;
     private _lift : number = -0.1;
@@ -27,6 +29,7 @@ export default class Player extends GameObject {
     constructor(args: PlayerArguments) {
         super(args.options)
         this._color = args.color;
+        Game.addCollidable(this);
     }
 
     draw({ context }: DrawArgs) {
@@ -37,8 +40,8 @@ export default class Player extends GameObject {
         context.fillRect(x, y, width, height);
     }
 
-    update({ deltatime, keyboard }: UpdateArgs) {
-        const keyPressed = keyboard.isKeyActive(KEYS.W);
+    update({ deltatime }: UpdateArgs) {
+        const keyPressed = Game.Input.isKeyActive(KEYS.W);
         if(keyPressed) {
             this._velocity += this._lift;
         }
@@ -53,5 +56,9 @@ export default class Player extends GameObject {
             this.position.y = 0;
             this._velocity = 0;
         }
+    }
+
+    didCollide() {
+        Game.STATE = GAME_STATES.PAUSED
     }
 }

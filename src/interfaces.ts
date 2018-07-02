@@ -1,4 +1,5 @@
 import KeyboardHandler from "./keyboard-handler";
+import Game from "./game";
 
 export interface Point {
     x: number,
@@ -12,8 +13,7 @@ export interface Size {
 
 export interface UpdateArgs {
     deltatime: number,
-    framecount: number,
-    keyboard: KeyboardHandler
+    framecount: number
 }
 
 export interface DrawArgs {

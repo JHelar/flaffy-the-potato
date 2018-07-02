@@ -1,4 +1,4 @@
-import { Point, Size, UpdateArgs, DrawArgs } from './interfaces';
+import { Point, Size, UpdateArgs, DrawArgs } from '../interfaces';
 
 export interface GameObjectInterface {
     /**
@@ -11,7 +11,8 @@ export interface GameObjectInterface {
      */
     update(updateArgs: UpdateArgs);
 
-    collision(gameObjects: GameObject[]): (GameObject | null);
+    size: Size;
+    position: Point
 }
 
 export interface GameObjectOptions {
@@ -20,7 +21,6 @@ export interface GameObjectOptions {
 }
 
 export default abstract class GameObject implements GameObjectInterface {
-    
     
     private _size : Size;
     public get size() : Size {
@@ -55,9 +55,5 @@ export default abstract class GameObject implements GameObjectInterface {
 
     update(updateArgs: UpdateArgs) {
         throw new Error("Method not implemented.");
-    }
-
-    collision(gameObjects: GameObject[]){
-        return null;
     }
 }

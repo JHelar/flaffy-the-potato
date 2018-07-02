@@ -12,7 +12,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var game_object_1 = require("./game-object");
 var pipe_1 = require("./pipe");
-var constants_1 = require("./constants");
+var constants_1 = require("../constants");
+var game_1 = require("../game");
 var PipeHandler = /** @class */ (function (_super) {
     __extends(PipeHandler, _super);
     function PipeHandler(spawnrate, pipespeed) {
@@ -25,6 +26,7 @@ var PipeHandler = /** @class */ (function (_super) {
     PipeHandler.prototype._killPipe = function (pipe, index, pipes) {
         if (pipe.position.x + pipe.size.width < 0) {
             pipes.splice(index, 1);
+            game_1.default.removeCollidable(pipe.guid);
             return;
         }
     };
@@ -64,6 +66,8 @@ var PipeHandler = /** @class */ (function (_super) {
         if (updateArgs.framecount % this._spawnrate === 0) {
             this._spawnPipe();
         }
+    };
+    PipeHandler.prototype.collision = function (gameObjects) {
     };
     return PipeHandler;
 }(game_object_1.default));

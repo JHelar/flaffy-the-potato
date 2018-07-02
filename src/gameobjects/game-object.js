@@ -34,9 +34,6 @@ var GameObject = /** @class */ (function () {
     GameObject.prototype.update = function (updateArgs) {
         throw new Error("Method not implemented.");
     };
-    GameObject.prototype.collision = function (gameObjects) {
-        return null;
-    };
     return GameObject;
 }());
 exports.default = GameObject;

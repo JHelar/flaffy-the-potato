@@ -10,9 +10,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var game_object_1 = require("./game-object");
-var constants_1 = require("./constants");
-var keyboard_handler_1 = require("./keyboard-handler");
+var constants_1 = require("../constants");
+var keyboard_handler_1 = require("../keyboard-handler");
+var game_1 = require("../game");
+var box_collider_1 = require("../colliders/box-collider");
 var Player = /** @class */ (function (_super) {
     __extends(Player, _super);
     function Player(args) {
@@ -21,6 +22,7 @@ var Player = /** @class */ (function (_super) {
         _this._lift = -0.1;
         _this._gravity = 0.05;
         _this._color = args.color;
+        game_1.default.addCollidable(_this);
         return _this;
     }
     Object.defineProperty(Player.prototype, "color", {
@@ -41,8 +43,8 @@ var Player = /** @class */ (function (_super) {
         context.fillRect(x, y, width, height);
     };
     Player.prototype.update = function (_a) {
-        var deltatime = _a.deltatime, keyboard = _a.keyboard;
-        var keyPressed = keyboard.isKeyActive(keyboard_handler_1.KEYS.W);
+        var deltatime = _a.deltatime;
+        var keyPressed = game_1.default.Input.isKeyActive(keyboard_handler_1.KEYS.W);
         if (keyPressed) {
             this._velocity += this._lift;
         }
@@ -57,7 +59,10 @@ var Player = /** @class */ (function (_super) {
             this._velocity = 0;
         }
     };
+    Player.prototype.didCollide = function () {
+        game_1.default.STATE = game_1.GAME_STATES.PAUSED;
+    };
     return Player;
-}(game_object_1.default));
+}(box_collider_1.default));
 exports.default = Player;
 //# sourceMappingURL=flaffy.js.map

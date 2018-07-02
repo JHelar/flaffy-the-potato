@@ -1,13 +1,15 @@
-import GameObject, { GameObjectOptions } from './game-object';
-import { Size, UpdateArgs, DrawArgs } from './interfaces';
-import { CANVAS_HEIGHT } from './constants'
+import { GameObjectOptions } from './game-object';
+import { UpdateArgs, DrawArgs } from '../interfaces';
+import { CANVAS_HEIGHT } from '../constants'
+import BoxCollider from '../colliders/box-collider';
+import Game from '../game';
 
 interface PipeOptions {
     color: string,
     speed: number,
 }
 
-export default class Pipe extends GameObject {
+export default class Pipe extends BoxCollider {
     
     private _bottom: number;
     private _spacing: number = 150;
@@ -27,6 +29,7 @@ export default class Pipe extends GameObject {
             color: '#00FF00',
             speed: -0.5
         }
+        Game.addCollidable(this);
     }
 
     update({ deltatime }: UpdateArgs) {
@@ -39,5 +42,9 @@ export default class Pipe extends GameObject {
         const { width, height } = this.size;
         context.fillRect(x, 0, width, height);
         context.fillRect(x, this.size.height + this._spacing, width, CANVAS_HEIGHT - height);
+    }
+
+    didCollide() {
+        
     }
 }

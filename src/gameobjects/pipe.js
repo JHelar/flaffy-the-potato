@@ -10,8 +10,9 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var game_object_1 = require("./game-object");
-var constants_1 = require("./constants");
+var constants_1 = require("../constants");
+var box_collider_1 = require("../colliders/box-collider");
+var game_1 = require("../game");
 var Pipe = /** @class */ (function (_super) {
     __extends(Pipe, _super);
     function Pipe(gameObject, options) {
@@ -21,6 +22,7 @@ var Pipe = /** @class */ (function (_super) {
             color: '#00FF00',
             speed: -0.5
         };
+        game_1.default.addCollidable(_this);
         return _this;
     }
     Object.defineProperty(Pipe.prototype, "options", {
@@ -46,7 +48,9 @@ var Pipe = /** @class */ (function (_super) {
         context.fillRect(x, 0, width, height);
         context.fillRect(x, this.size.height + this._spacing, width, constants_1.CANVAS_HEIGHT - height);
     };
+    Pipe.prototype.didCollide = function () {
+    };
     return Pipe;
-}(game_object_1.default));
+}(box_collider_1.default));
 exports.default = Pipe;
 //# sourceMappingURL=pipe.js.map

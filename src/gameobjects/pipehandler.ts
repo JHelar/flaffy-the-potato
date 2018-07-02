@@ -1,7 +1,8 @@
 import GameObject from "./game-object";
 import Pipe from "./pipe";
-import { DrawArgs, UpdateArgs, Size } from './interfaces';
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
+import { DrawArgs, UpdateArgs, Size } from '../interfaces';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../constants';
+import Game from "../game";
 
 export default class PipeHandler extends GameObject {
     private _pipes : Pipe[];
@@ -18,6 +19,7 @@ export default class PipeHandler extends GameObject {
     private _killPipe(pipe: Pipe, index: number, pipes: Pipe[]) {
         if(pipe.position.x + pipe.size.width < 0) {
             pipes.splice(index, 1);
+            Game.removeCollidable(pipe.guid);
             return;
         }
     }
@@ -62,5 +64,9 @@ export default class PipeHandler extends GameObject {
         if(updateArgs.framecount % this._spawnrate === 0) {
             this._spawnPipe();
         }
+    }
+
+    collision(gameObjects: GameObject[]) {
+        
     }
 }

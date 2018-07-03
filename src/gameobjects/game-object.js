@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var guid_1 = require("../utils/guid");
 var GameObject = /** @class */ (function () {
     function GameObject(options) {
+        this.guid = guid_1.default();
         if (options) {
             var position = options.position, size = options.size;
             this._position = position;

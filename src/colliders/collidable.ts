@@ -1,5 +1,4 @@
 import GameObject from "../gameobjects/game-object";
-import guid from '../utils/guid';
 
 export interface CollidableInterface {
     collisionCheck(): void
@@ -7,7 +6,6 @@ export interface CollidableInterface {
 }
 
 export class Collidable extends GameObject implements CollidableInterface {
-    public guid: string = guid()
 
     collisionCheck(): void {
         throw new Error("Method not implemented.");

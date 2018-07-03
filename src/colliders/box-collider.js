@@ -30,13 +30,8 @@ var BoxCollider = /** @class */ (function (_super) {
                     this.position.y + this.size.height > collidable.position.y)) {
                 return true;
             }
-            else {
-                return false;
-            }
         }
-        else {
-            return false;
-        }
+        return false;
     };
     BoxCollider.prototype.collisionCheck = function () {
         var _this = this;

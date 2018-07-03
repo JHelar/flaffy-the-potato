@@ -5,6 +5,9 @@ import GameObject from "./gameobjects/game-object";
 import { Collidable } from './colliders/collidable';
 
 import { findIndex } from 'lodash'
+import { Engine } from './interfaces';
+import CanvasEngine from './engines/canvas/canvas-engine';
+import WebGLEngine from './engines/webgl/webgl-engine';
 
 export const GAME_STATES = {
     STOP: 'GAME_STOPP',
@@ -14,13 +17,15 @@ export const GAME_STATES = {
 
 export default class Game {
     public static readonly GameObjects: GameObject[] = [];
-    public static readonly Collidables: Collidable[] = [];
 
     public static Input: KeyboardHandler;
     public static STATE: string = GAME_STATES.STOP;
+    public static get Collidables(): Collidable[] {
+        return <Collidable[]>this.GameObjects.filter(g => g instanceof Collidable);
+    }
 
     private _canvas: HTMLCanvasElement;
-    private _context: CanvasRenderingContext2D;
+    private _engine: Engine;
 
     private _frameCount: number = 0;
     private _fpsInterval: number = 0;
@@ -29,23 +34,31 @@ export default class Game {
     private _now : number = 0;
     private _then : number = 0;
 
-    constructor(canvasId: string) {
+    constructor(canvasId: string, mode: string) {
         this._canvas = document.getElementById(canvasId) as HTMLCanvasElement;
         this._canvas.width = CANVAS_WIDTH;
         this._canvas.height = CANVAS_HEIGHT;
 
         Game.Input = new KeyboardHandler();
+        
 
-        this._context = this._canvas.getContext('2d');
+        const context = this._canvas.getContext(mode);
+        if(context instanceof CanvasRenderingContext2D) {
+            this._engine = new CanvasEngine(context);
+        }else if (context instanceof WebGLRenderingContext) {
+            this._engine = new WebGLEngine(context);
+        } else {
+            throw new Error('Invalid engine option!');
+        }
 
         window.addEventListener('keydown', Game.Input.keyDown.bind(Game.Input), false);
         window.addEventListener('keyup', Game.Input.keyUp.bind(Game.Input), false);
     }
 
     private _draw(){
-        this._context.fillStyle = '#ececec';
-        this._context.fillRect(0, 0, 640, 480);
-        Game.GameObjects.forEach(g => g.draw({ context: this._context }))
+        this._engine.preDraw();
+        this._engine.drawRect(60, 20, 50, 200, '#0000ff');
+        //Game.GameObjects.forEach(g => g.draw({ engine: this._engine }))
     }
 
     private _update(){
@@ -59,10 +72,10 @@ export default class Game {
                     deltatime: this._elapsed,
                     framecount: this._frameCount
                 })
-            });
-    
-            Game.Collidables.forEach(c => {
-                c.collisionCheck.bind(c)();
+                
+                if(g instanceof Collidable){
+                    g.collisionCheck.bind(g)();
+                }
             });
         }
     }
@@ -95,14 +108,10 @@ export default class Game {
         Game.GameObjects.push(gameObject);
     }
 
-    public static addCollidable(collidable: Collidable) {
-        Game.Collidables.push(collidable);
-    }
-
-    public static removeCollidable(guid: string) {
-        const index = findIndex(Game.Collidables, c => c.guid === guid);
+    public static removeGameobject({ guid }: GameObject) {
+        const index = findIndex(Game.GameObjects, c => c.guid === guid);
         if(index > -1) {
-            Game.Collidables.splice(index, 1);
+            Game.GameObjects.splice(index, 1);
         }
     }
 }

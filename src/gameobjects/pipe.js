@@ -22,7 +22,6 @@ var Pipe = /** @class */ (function (_super) {
             color: '#00FF00',
             speed: -0.5
         };
-        game_1.default.addCollidable(_this);
         return _this;
     }
     Object.defineProperty(Pipe.prototype, "options", {
@@ -39,14 +38,16 @@ var Pipe = /** @class */ (function (_super) {
     Pipe.prototype.update = function (_a) {
         var deltatime = _a.deltatime;
         this.position.x += this._options.speed * deltatime;
+        if (this.position.x + this.size.width < 0) {
+            game_1.default.removeGameobject(this); // Kill self
+        }
     };
     Pipe.prototype.draw = function (_a) {
-        var context = _a.context;
-        context.fillStyle = this._options.color;
+        var engine = _a.engine;
         var _b = this.position, x = _b.x, y = _b.y;
         var _c = this.size, width = _c.width, height = _c.height;
-        context.fillRect(x, 0, width, height);
-        context.fillRect(x, this.size.height + this._spacing, width, constants_1.CANVAS_HEIGHT - height);
+        engine.drawRect(x, 0, width, height, this._options.color);
+        engine.drawRect(x, this.size.height + this._spacing, width, constants_1.CANVAS_HEIGHT - height, this._options.color);
     };
     Pipe.prototype.didCollide = function () {
     };

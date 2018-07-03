@@ -10,8 +10,10 @@ var pipehandler_1 = require("./src/gameobjects/pipehandler");
 var gameObjects = [];
 gameObjects.push();
 gameObjects.push();
-window.Game = new game_1.default('game');
-window.Game.start();
+var game = new game_1.default('game', 'webgl');
+game.start();
+window.GameObjects = game_1.default.GameObjects;
+window.Game = game;
 var flaffy = new flaffy_1.default({
     options: {
         position: {
@@ -23,8 +25,9 @@ var flaffy = new flaffy_1.default({
             height: 20
         }
     },
-    color: '#333'
+    color: '#333333'
 });
+flaffy.guid = 'PLAYER';
 var pipehandler = new pipehandler_1.default(75, -0.2);
 game_1.default.addGameObject(pipehandler);
 game_1.default.addGameObject(flaffy);

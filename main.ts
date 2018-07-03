@@ -2,7 +2,7 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from './src/constants';
 import Game from './src/game';
 
 declare global {
-    interface Window { Game: Game; }
+    interface Window { Game: Game; GameObjects: GameObject[] }
 }
 
 /**
@@ -16,8 +16,11 @@ const gameObjects: GameObject[] = [];
 gameObjects.push()
 gameObjects.push();
 
-window.Game = new Game('game');
-window.Game.start();
+const game = new Game('game', 'webgl');
+game.start();
+
+window.GameObjects = Game.GameObjects;
+window.Game = game;
 
 const flaffy = new Player({
     options: {
@@ -30,8 +33,10 @@ const flaffy = new Player({
             height: 20
         }
     },
-    color: '#333'
+    color: '#333333'
 });
+
+flaffy.guid = 'PLAYER';
 
 const pipehandler = new PipeHandler(75, -0.2);
 

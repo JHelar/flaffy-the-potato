@@ -1,4 +1,4 @@
-import { GameObjectOptions } from './game-object';
+import GameObject, { GameObjectOptions } from './game-object';
 import { DrawArgs, UpdateArgs } from '../interfaces'
 import { CANVAS_HEIGHT } from '../constants';
 import { KEYS } from '../keyboard-handler';
@@ -29,15 +29,13 @@ export default class Player extends BoxCollider {
     constructor(args: PlayerArguments) {
         super(args.options)
         this._color = args.color;
-        Game.addCollidable(this);
     }
 
-    draw({ context }: DrawArgs) {
+    draw({ engine }: DrawArgs) {
         const { width, height } = this.size;
         const { x, y } = this.position;
 
-        context.fillStyle = this._color;
-        context.fillRect(x, y, width, height);
+        engine.drawRect(x, y, width, height, this._color);
     }
 
     update({ deltatime }: UpdateArgs) {

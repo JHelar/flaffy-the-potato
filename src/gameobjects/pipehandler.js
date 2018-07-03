@@ -18,18 +18,10 @@ var PipeHandler = /** @class */ (function (_super) {
     __extends(PipeHandler, _super);
     function PipeHandler(spawnrate, pipespeed) {
         var _this = _super.call(this, null) || this;
-        _this._pipes = [];
         _this._spawnrate = spawnrate;
         _this._pipespeed = pipespeed;
         return _this;
     }
-    PipeHandler.prototype._killPipe = function (pipe, index, pipes) {
-        if (pipe.position.x + pipe.size.width < 0) {
-            pipes.splice(index, 1);
-            game_1.default.removeCollidable(pipe.guid);
-            return;
-        }
-    };
     PipeHandler.prototype._spawnPipe = function () {
         var random = function (min, max) {
             var rand = Math.random() * max;
@@ -52,17 +44,11 @@ var PipeHandler = /** @class */ (function (_super) {
             speed: this._pipespeed,
             color: '#789933'
         });
-        this._pipes.push(pipe);
+        game_1.default.addGameObject(pipe);
     };
     PipeHandler.prototype.draw = function (drawArgs) {
-        this._pipes.forEach(function (p) { return p.draw(drawArgs); });
     };
     PipeHandler.prototype.update = function (updateArgs) {
-        var _this = this;
-        this._pipes.forEach(function (p, index, pipes) {
-            p.update(updateArgs);
-            _this._killPipe(p, index, pipes);
-        });
         if (updateArgs.framecount % this._spawnrate === 0) {
             this._spawnPipe();
         }

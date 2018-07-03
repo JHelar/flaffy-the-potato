@@ -1,4 +1,5 @@
 import { Point, Size, UpdateArgs, DrawArgs } from '../interfaces';
+import guid from '../utils/guid';
 
 export interface GameObjectInterface {
     /**
@@ -39,8 +40,9 @@ export default abstract class GameObject implements GameObjectInterface {
         this._position = v;
     }
     
+    public guid: string = guid()
     
-
+    
     constructor(options?: GameObjectOptions){
         if(options){
             const { position, size } = options;

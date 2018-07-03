@@ -22,7 +22,6 @@ var Player = /** @class */ (function (_super) {
         _this._lift = -0.1;
         _this._gravity = 0.05;
         _this._color = args.color;
-        game_1.default.addCollidable(_this);
         return _this;
     }
     Object.defineProperty(Player.prototype, "color", {
@@ -36,11 +35,10 @@ var Player = /** @class */ (function (_super) {
         configurable: true
     });
     Player.prototype.draw = function (_a) {
-        var context = _a.context;
+        var engine = _a.engine;
         var _b = this.size, width = _b.width, height = _b.height;
         var _c = this.position, x = _c.x, y = _c.y;
-        context.fillStyle = this._color;
-        context.fillRect(x, y, width, height);
+        engine.drawRect(x, y, width, height, this._color);
     };
     Player.prototype.update = function (_a) {
         var deltatime = _a.deltatime;

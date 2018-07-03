@@ -29,22 +29,23 @@ export default class Pipe extends BoxCollider {
             color: '#00FF00',
             speed: -0.5
         }
-        Game.addCollidable(this);
     }
 
     update({ deltatime }: UpdateArgs) {
         this.position.x += this._options.speed * deltatime;
+
+        if(this.position.x + this.size.width < 0) {
+            Game.removeGameobject(this); // Kill self
+        }
     }
 
-    draw({ context }: DrawArgs) {
-        context.fillStyle = this._options.color;
+    draw({ engine }: DrawArgs) {
         const { x, y } = this.position;
         const { width, height } = this.size;
-        context.fillRect(x, 0, width, height);
-        context.fillRect(x, this.size.height + this._spacing, width, CANVAS_HEIGHT - height);
+        engine.drawRect(x, 0, width, height, this._options.color);
+        engine.drawRect(x, this.size.height + this._spacing, width, CANVAS_HEIGHT - height, this._options.color);
     }
 
     didCollide() {
-        
     }
 }

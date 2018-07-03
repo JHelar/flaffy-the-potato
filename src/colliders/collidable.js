@@ -11,13 +11,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var game_object_1 = require("../gameobjects/game-object");
-var guid_1 = require("../utils/guid");
 var Collidable = /** @class */ (function (_super) {
     __extends(Collidable, _super);
     function Collidable() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.guid = guid_1.default();
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Collidable.prototype.collisionCheck = function () {
         throw new Error("Method not implemented.");

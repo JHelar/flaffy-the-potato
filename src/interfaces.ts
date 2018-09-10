@@ -20,7 +20,15 @@ export interface DrawArgs {
     engine: Engine
 }
 
+export interface Texture {}
+
+export interface CanvasTexture extends Texture {
+    element: HTMLImageElement
+}
+
 export interface Engine {
     drawRect(x: number, y: number, width: number, height: number, color: string): void,
-    preDraw(): void
+    preDraw(): void,
+    createTexture(path: string): Texture,
+    drawTexture(texture: Texture, x: number, y: number, width: number, height: number): void
 }

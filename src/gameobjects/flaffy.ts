@@ -1,5 +1,5 @@
 import GameObject, { GameObjectOptions } from './game-object';
-import { DrawArgs, UpdateArgs } from '../interfaces'
+import { DrawArgs, UpdateArgs, Texture } from '../interfaces'
 import { CANVAS_HEIGHT } from '../constants';
 import { KEYS } from '../keyboard-handler';
 import Game, { GAME_STATES } from '../game';
@@ -8,7 +8,7 @@ import BoxCollider from '../colliders/box-collider';
 interface PlayerArguments {
     options: GameObjectOptions,
     color: string,
-
+    texture?: Texture
 }
 
 export default class Player extends BoxCollider {
@@ -16,6 +16,7 @@ export default class Player extends BoxCollider {
     private _velocity : number = 0;
     private _lift : number = -0.1;
     private _gravity: number = 0.05;
+    private _texture: Texture;
 
     private _color : string;
     public get color() : string {
@@ -29,13 +30,18 @@ export default class Player extends BoxCollider {
     constructor(args: PlayerArguments) {
         super(args.options)
         this._color = args.color;
+        this._texture = args.texture;
     }
 
     draw({ engine }: DrawArgs) {
         const { width, height } = this.size;
         const { x, y } = this.position;
 
-        engine.drawRect(x, y, width, height, this._color);
+        if(this._texture) {
+            engine.drawTexture(this._texture, x, y, width, height);
+        } else {
+            engine.drawRect(x, y, width, height, this._color);
+        }
     }
 
     update({ deltatime }: UpdateArgs) {
@@ -43,6 +49,7 @@ export default class Player extends BoxCollider {
         if(keyPressed) {
             this._velocity += this._lift;
         }
+        
         this._velocity += this._gravity;
 
         this.position.y += this._velocity * deltatime;

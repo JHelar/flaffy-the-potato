@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -46,8 +49,12 @@ var Pipe = /** @class */ (function (_super) {
         var engine = _a.engine;
         var _b = this.position, x = _b.x, y = _b.y;
         var _c = this.size, width = _c.width, height = _c.height;
-        engine.drawRect(x, 0, width, height, this._options.color);
-        engine.drawRect(x, this.size.height + this._spacing, width, constants_1.CANVAS_HEIGHT - height, this._options.color);
+        if (this._options.texture) {
+            engine.drawTexture(this._options.texture, x, y, width, height);
+        }
+        else {
+            engine.drawRect(x, y, width, height, this._options.color);
+        }
     };
     Pipe.prototype.didCollide = function () {
     };

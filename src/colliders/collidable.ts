@@ -9,7 +9,8 @@ export class Collidable extends GameObject implements CollidableInterface {
 
     collisionCheck(): void {
         throw new Error("Method not implemented.");
-    }    didCollide(gameObject: GameObject) {
+    }    
+    didCollide(gameObject: GameObject) {
         throw new Error("Method not implemented.");
     }
 }

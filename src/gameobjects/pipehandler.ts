@@ -1,17 +1,19 @@
 import GameObject from "./game-object";
 import Pipe from "./pipe";
-import { DrawArgs, UpdateArgs, Size } from '../interfaces';
+import { DrawArgs, UpdateArgs, Size, Texture } from '../interfaces';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../constants';
 import Game from "../game";
 
 export default class PipeHandler extends GameObject {
     private _spawnrate: number;
     private _pipespeed: number;
+    private _texture: Texture;
 
-    constructor(spawnrate: number, pipespeed: number){
+    constructor(spawnrate: number, pipespeed: number, texture?: Texture){
         super(null)
         this._spawnrate = spawnrate;
         this._pipespeed = pipespeed;
+        this._texture = texture;
     }
 
     private _spawnPipe() {
@@ -23,21 +25,38 @@ export default class PipeHandler extends GameObject {
 
         const height = random(CANVAS_HEIGHT / 6, (3 / 4) * CANVAS_HEIGHT);
 
-        const pipeSize: Size = {
-            height,
-            width: 40
-        }
-        const pipe = new Pipe({
+        const pipe_1 = new Pipe({
             position: {
                 x: CANVAS_WIDTH,
                 y: 0
             },
-            size: pipeSize
+            size: {
+                height,
+                width: 40
+            }
         }, {
             speed: this._pipespeed,
-            color: '#789933'
+            color: '#789933',
+            texture: this._texture
         });
-        Game.addGameObject(pipe);
+
+        const pipe_2 = new Pipe({
+            position: {
+                x: CANVAS_WIDTH,
+                y: height + 150
+            },
+            size: {
+                height: CANVAS_HEIGHT - height,
+                width: 40
+            },
+        }, {
+            speed: this._pipespeed,
+            color: '#789933',
+            texture: this._texture
+        })
+
+        Game.addGameObject(pipe_1);
+        Game.addGameObject(pipe_2);
     }
 
     draw(drawArgs: DrawArgs){

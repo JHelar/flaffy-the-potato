@@ -34,7 +34,7 @@ export default class Game {
     private _now : number = 0;
     private _then : number = 0;
 
-    constructor(canvasId: string, mode: string) {
+    constructor(canvasId: string, mode: 'webgl' | '2d') {
         this._canvas = document.getElementById(canvasId) as HTMLCanvasElement;
         this._canvas.width = CANVAS_WIDTH;
         this._canvas.height = CANVAS_HEIGHT;

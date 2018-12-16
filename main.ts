@@ -16,7 +16,7 @@ const gameObjects: GameObject[] = [];
 gameObjects.push()
 gameObjects.push();
 
-const game = new Game('game', 'webgl');
+const game = new Game('game', '2d');
 game.start();
 
 window.GameObjects = Game.GameObjects;
@@ -29,16 +29,17 @@ const flaffy = new Player({
             y: CANVAS_HEIGHT / 2
         },
         size: {
-            width: 20,
-            height: 20
+            width: 30,
+            height: 35
         }
     },
-    color: '#333333'
+    color: '#333333',
+    texture: game.createTexture('/flaffy.png')
 });
 
 flaffy.guid = 'PLAYER';
 
-const pipehandler = new PipeHandler(75, -0.2);
+const pipehandler = new PipeHandler(75, -0.2, game.createTexture('/pipe.png'));
 
 Game.addGameObject(pipehandler);
 Game.addGameObject(flaffy);

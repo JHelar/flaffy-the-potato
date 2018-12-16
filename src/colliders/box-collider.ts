@@ -1,6 +1,5 @@
 import { Collidable } from "./collidable";
 import Game from "../game";
-import GameObject from "../gameobjects/game-object";
 
 export default class BoxCollider extends Collidable  {
     private _collisionCheck(collidable: Collidable): boolean {
@@ -24,7 +23,10 @@ export default class BoxCollider extends Collidable  {
     }
     
     collisionCheck() {
-        const collisions = Game.Collidables.filter(this._collisionCheck.bind(this));
-        collisions.forEach(c => c.didCollide(this));
+        Game.Collidables.forEach(c => {
+            if(this._collisionCheck.bind(this)(c)){
+                c.didCollide(this);
+            }
+        })
     }
 }

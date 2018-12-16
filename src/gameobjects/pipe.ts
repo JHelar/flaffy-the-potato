@@ -1,5 +1,5 @@
 import { GameObjectOptions } from './game-object';
-import { UpdateArgs, DrawArgs } from '../interfaces';
+import { UpdateArgs, DrawArgs, Texture } from '../interfaces';
 import { CANVAS_HEIGHT } from '../constants'
 import BoxCollider from '../colliders/box-collider';
 import Game from '../game';
@@ -7,6 +7,7 @@ import Game from '../game';
 interface PipeOptions {
     color: string,
     speed: number,
+    texture?: Texture
 }
 
 export default class Pipe extends BoxCollider {
@@ -42,8 +43,11 @@ export default class Pipe extends BoxCollider {
     draw({ engine }: DrawArgs) {
         const { x, y } = this.position;
         const { width, height } = this.size;
-        engine.drawRect(x, 0, width, height, this._options.color);
-        engine.drawRect(x, this.size.height + this._spacing, width, CANVAS_HEIGHT - height, this._options.color);
+        if(this._options.texture) {
+            engine.drawTexture(this._options.texture, x, y, width, height);
+        } else {
+            engine.drawRect(x, y, width, height, this._options.color);
+        }
     }
 
     didCollide() {

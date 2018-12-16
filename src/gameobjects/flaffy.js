@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -22,6 +25,7 @@ var Player = /** @class */ (function (_super) {
         _this._lift = -0.1;
         _this._gravity = 0.05;
         _this._color = args.color;
+        _this._texture = args.texture;
         return _this;
     }
     Object.defineProperty(Player.prototype, "color", {
@@ -38,7 +42,12 @@ var Player = /** @class */ (function (_super) {
         var engine = _a.engine;
         var _b = this.size, width = _b.width, height = _b.height;
         var _c = this.position, x = _c.x, y = _c.y;
-        engine.drawRect(x, y, width, height, this._color);
+        if (this._texture) {
+            engine.drawTexture(this._texture, x, y, width, height);
+        }
+        else {
+            engine.drawRect(x, y, width, height, this._color);
+        }
     };
     Player.prototype.update = function (_a) {
         var deltatime = _a.deltatime;

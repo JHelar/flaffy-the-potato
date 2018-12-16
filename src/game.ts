@@ -5,7 +5,7 @@ import GameObject from "./gameobjects/game-object";
 import { Collidable } from './colliders/collidable';
 
 import { findIndex } from 'lodash'
-import { Engine } from './interfaces';
+import { Engine, Texture } from './interfaces';
 import CanvasEngine from './engines/canvas/canvas-engine';
 import WebGLEngine from './engines/webgl/webgl-engine';
 
@@ -57,27 +57,20 @@ export default class Game {
 
     private _draw(){
         this._engine.preDraw();
-        this._engine.drawRect(60, 20, 50, 200, '#0000ff');
-        //Game.GameObjects.forEach(g => g.draw({ engine: this._engine }))
+        Game.GameObjects.forEach(g => g.draw({ engine: this._engine }))
     }
 
     private _update(){
-        if(Game.Input.isKeyActive(KEYS.SPACE)){
-            Game.STATE = GAME_STATES.PLAY;
-        }
-
-        if(Game.STATE === GAME_STATES.PLAY) {
-            Game.GameObjects.forEach(g => {
-                g.update({
-                    deltatime: this._elapsed,
-                    framecount: this._frameCount
-                })
-                
-                if(g instanceof Collidable){
-                    g.collisionCheck.bind(g)();
-                }
-            });
-        }
+        Game.GameObjects.forEach(g => {
+            g.update({
+                deltatime: this._elapsed,
+                framecount: this._frameCount
+            })
+            
+            if(g instanceof Collidable){
+                g.collisionCheck.bind(g)();
+            }
+        });
     }
 
     private _gameLoop(){
@@ -88,8 +81,12 @@ export default class Game {
         if(this._elapsed > this._fpsInterval) {
             this._then = this._now - (this._elapsed % this._fpsInterval);
             this._frameCount++;
-            this._update();
-            this._draw();
+            if(Game.STATE === GAME_STATES.PLAY) {
+                this._update();
+                this._draw();
+            } else if(Game.Input.isKeyActive(KEYS.SPACE)){
+                Game.STATE = GAME_STATES.PLAY;
+            }
         }
     }
 
@@ -102,6 +99,10 @@ export default class Game {
         Game.STATE = GAME_STATES.PLAY;
 
         this._gameLoop();
+    }
+
+    public createTexture(path: string): Texture {
+        return this._engine.createTexture(path);
     }
 
     public static addGameObject(gameObject: GameObject){
